@@ -1,18 +1,54 @@
-var ANIMATIONS = {
-    frame_width: 100
+function Animation(config){
+    this.frame_time = null;
+    this.current_frame = null;
+    this.current_animation = null;
+    this.animations = config;
+    this.stoped = false;
+    this.x = 0;
+    this.init();
 }
 
-var timerUtil = {
-    get
-};
-
-function Animation(){
-    this.url = "";
-    this.actual_frame = 0;
-    this.animations = {
-        "walk": {
-            frames: [1, 2, 3],
-            speed: 2
+Animation.prototype = {
+    constructor: Animation,
+    init: function(){
+        var that = this;
+        document.addEventListener('keydown', function(ev){
+            console.log("Keuy DOwn");
+            if (ev.which === 39) {
+                console.log("Right");
+                that.x += 1;
+            }
+        });
+    },
+    play: function(animation){
+        this.frame_time = 0;
+        this.current_animation = animation;
+        this.current_frame = 0;
+    },
+    update: function(){
+        var now = Date.now();
+        this.frame_time += (now - game.last_time) / 1000.0;
+        if (this.frame_time >= this.animations[this.current_animation]['speed']) {
+            this.frame_time = 0;
+            if (this.current_frame < this.animations[this.current_animation]['frames'].length - 1) {
+                this.current_frame += 1;
+            } else if (this.animations[this.current_animation]['loop']) {
+                this.current_frame = 0;
+            } else {
+                this.stoped = true;
+            }
         }
-    };
-}
+    },
+    render: function(){
+        game.canvas.drawImage(sprite_load,
+            this.animations[this.current_animation]['frames'][this.current_frame]['x'],
+            this.animations[this.current_animation]['frames'][this.current_frame]['y'],
+            this.animations[this.current_animation]['frames'][this.current_frame]['width'],
+        this.animations[this.current_animation]['frames'][this.current_frame]['heigth'],
+        this.x,
+        0,100,100
+    );
+    //game.canvas.drawImage(sprite_load, 0, 0, 70, 100, 0, 0, 100, 100);
+        //console.log("The current animation playing is " + this.current_animation + " at frame " + this.current_frame + " and the time of this frame is " + this.frame_time);
+    }
+};
