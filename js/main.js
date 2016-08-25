@@ -22,12 +22,13 @@ var animations = {
     }
 };
 
+var player = new Player();
+
 var time_elapsed = 0;
 var actual_frame = 0;
 
 function playAnimation(animation, te){
     time_elapsed += te;
-    console.log("te " + time_elapsed);
     var _frameToPlay = null;
     var speed = 2; //Each frame play as 2 secods per frame
     var frames = [0, 1, 2, 3, 2, 1, 0];
@@ -41,7 +42,6 @@ function playAnimation(animation, te){
         actual_frame = 0;
     }
 
-    console.log(actual_frame);
 
     /*_frameToPlay = animations[animation]['startFrame'] + (animations[animation]['frameWidth'] * step);
     context.drawImage(sprite_load, animations[animation]['width'],  animations[animation]['height'],
@@ -50,11 +50,13 @@ function playAnimation(animation, te){
 
 function game_loop(){
     game.canvas.clearRect(0, 0, 800, 640);
+    player.update();
+    console.log(player.actualEnergy);
     var now = Date.now();
     var dt = (now - last_time) / 1000.0;
     //console.log(dt);
-    player.animator.update();
-    player.animator.render();
+    // player.animator.update();
+    // player.animator.render();
     //playAnimation('walk', dt);
     //context.drawImage(sprite_load, 10, 10, 200, 200)
     last_time = now;
@@ -63,7 +65,7 @@ function game_loop(){
     requestAnimationFrame(game_loop);
 }
 
-var player = {};
+/*var player = {};
 var player_animations = {
     'walk': {
         'loop': true,
@@ -77,13 +79,12 @@ var player_animations = {
     }
 };
 player.animator = new Animation(player_animations);
-player.animator.play('walk');
+player.animator.play('walk');*/
 
 
 (function(){
     sprite_load = new Image();
     sprite_load.onload = function(){
-        console.log("Image Loaded");
         game.last_time = Date.now();
         requestAnimationFrame(game_loop);
     }

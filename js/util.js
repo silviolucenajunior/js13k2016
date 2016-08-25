@@ -1,3 +1,13 @@
+var RIGHT_KEY = 39;
+var LEFT_KEY  = 37;
+var UP_KEY    = 38;
+var DOWN_KEY  = 40;
+var A_KEY     = 65;
+var S_KEY     = 83;
+var D_KEY     = 68;
+var F_KEY     = 70;
+
+
 function Animation(config){
     this.frame_time = null;
     this.current_frame = null;
@@ -13,9 +23,7 @@ Animation.prototype = {
     init: function(){
         var that = this;
         document.addEventListener('keydown', function(ev){
-            console.log("Keuy DOwn");
             if (ev.which === 39) {
-                console.log("Right");
                 that.x += 1;
             }
         });
